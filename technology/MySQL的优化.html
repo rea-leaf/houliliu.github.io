@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MySQL的优化 | 温柔一刀</title>
+    <meta name="description" content="">
+    <link rel="icon" href="/img/logo.jpeg">
+    
+    <link rel="preload" href="/assets/css/0.styles.a8fadcfc.css" as="style"><link rel="preload" href="/assets/js/app.3295d756.js" as="script"><link rel="preload" href="/assets/js/8.beb2bf5d.js" as="script"><link rel="preload" href="/assets/js/11.d4321d37.js" as="script"><link rel="prefetch" href="/assets/js/10.38c467ad.js"><link rel="prefetch" href="/assets/js/12.0aa7141a.js"><link rel="prefetch" href="/assets/js/13.6bb7e66f.js"><link rel="prefetch" href="/assets/js/14.58ed4118.js"><link rel="prefetch" href="/assets/js/15.61ef56ff.js"><link rel="prefetch" href="/assets/js/16.befdde1c.js"><link rel="prefetch" href="/assets/js/17.cf067eab.js"><link rel="prefetch" href="/assets/js/18.53979078.js"><link rel="prefetch" href="/assets/js/19.99855ec8.js"><link rel="prefetch" href="/assets/js/2.50cffe61.js"><link rel="prefetch" href="/assets/js/20.9321d797.js"><link rel="prefetch" href="/assets/js/21.302abdf0.js"><link rel="prefetch" href="/assets/js/22.cf1803f0.js"><link rel="prefetch" href="/assets/js/23.9a7e9698.js"><link rel="prefetch" href="/assets/js/24.1916c860.js"><link rel="prefetch" href="/assets/js/3.d4df4c83.js"><link rel="prefetch" href="/assets/js/4.eb49bfe2.js"><link rel="prefetch" href="/assets/js/5.2a57351f.js"><link rel="prefetch" href="/assets/js/6.06fba2c1.js"><link rel="prefetch" href="/assets/js/7.9ad3fe6f.js"><link rel="prefetch" href="/assets/js/9.d959ce65.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a8fadcfc.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/img/logo.jpeg" alt="温柔一刀" class="logo"> <span class="site-name can-hide">温柔一刀</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/timeLine/" class="nav-link">首页</a></div><div class="nav-item"><a href="/technology/" class="nav-link router-link-active">技术</a></div><div class="nav-item"><a href="/life/" class="nav-link">生活</a></div><div class="nav-item"><a href="/ponder/" class="nav-link">思考</a></div><div class="nav-item"><a href="/tags/" class="nav-link">标签库</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/share/" class="nav-link">分享</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">链接</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://www.jianshu.com/u/5afc74a26f09" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/houliliu" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://gitee.com/rea-leaf" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  码云
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav> <div style="margin-left:20px;margin-right:20px;">
+   音乐
+  <div role="switch" class="el-switch"><input type="checkbox" name="" true-value="true" class="el-switch__input"><!----><span class="el-switch__core" style="width:40px;"></span><!----></div> <audio loop="loop"><source src="/assets/media/love.71191943.mp3" type="audio/mpeg"></audio></div></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/timeLine/" class="nav-link">首页</a></div><div class="nav-item"><a href="/technology/" class="nav-link router-link-active">技术</a></div><div class="nav-item"><a href="/life/" class="nav-link">生活</a></div><div class="nav-item"><a href="/ponder/" class="nav-link">思考</a></div><div class="nav-item"><a href="/tags/" class="nav-link">标签库</a></div><div class="nav-item"><a href="/about/" class="nav-link">关于</a></div><div class="nav-item"><a href="/share/" class="nav-link">分享</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">链接</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://www.jianshu.com/u/5afc74a26f09" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  简书
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/houliliu" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://gitee.com/rea-leaf" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  码云
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>MySQL的优化</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#概述" class="sidebar-link">概述</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化的哲学" class="sidebar-link">优化的哲学</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化可能带来的问题" class="sidebar-link">优化可能带来的问题</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化的需求" class="sidebar-link">优化的需求</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化由谁参与" class="sidebar-link">优化由谁参与</a></li></ul></li><li><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化思路" class="sidebar-link">优化思路</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化什么" class="sidebar-link">优化什么</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化的范围有哪些" class="sidebar-link">优化的范围有哪些</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化维度" class="sidebar-link">优化维度</a></li></ul></li><li><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化工具" class="sidebar-link">优化工具</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#数据库层面" class="sidebar-link">数据库层面</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#系统层面" class="sidebar-link">系统层面</a></li></ul></li><li><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#基础优化" class="sidebar-link">基础优化</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#优化思路-2" class="sidebar-link">优化思路</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#硬件优化" class="sidebar-link">硬件优化</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#系统优化" class="sidebar-link">系统优化</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#应用优化" class="sidebar-link">应用优化</a></li><li class="sidebar-sub-header"><a href="/technology/MySQL%E7%9A%84%E4%BC%98%E5%8C%96.html#数据库优化" class="sidebar-link">数据库优化</a></li></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h2 id="概述"><a href="#概述" aria-hidden="true" class="header-anchor">#</a> 概述</h2> <p>MySQL调优是一个非常棘手的问题，多数情况都是因为对数据库出现问题的情况和处理思路不清晰。在进行MySQL的优化之前必须要了解的就是MySQL的查询过程，很多的查询优化工作实际上就是遵循一些原则让MySQL的优化器能够按照预想的合理方式运行而已。</p> <p><img src="/assets/img/1563708062724.cd4f16b2.png" alt="MySQL查询过程"></p> <h2 id="优化的哲学"><a href="#优化的哲学" aria-hidden="true" class="header-anchor">#</a> 优化的哲学</h2> <p>优化有风险，涉足需谨慎！</p> <h3 id="优化可能带来的问题"><a href="#优化可能带来的问题" aria-hidden="true" class="header-anchor">#</a> 优化可能带来的问题</h3> <ul><li><p>优化不总是对一个单纯的环境进行，还很可能是一个复杂的已投产的系统。</p></li> <li><p>优化手段本来就有很大的风险，只不过你没能力意识到和预见到！</p></li> <li><p>任何的技术可以解决一个问题，但必然存在带来一个问题的风险！</p></li> <li><p>对于优化来说解决问题而带来的问题,控制在可接受的范围内才是有成果。</p></li> <li><p>保持现状或出现更差的情况都是失败！</p></li></ul> <h3 id="优化的需求"><a href="#优化的需求" aria-hidden="true" class="header-anchor">#</a> 优化的需求</h3> <ul><li><p>稳定性和业务可持续性,通常比性能更重要！</p></li> <li><p>优化不可避免涉及到变更，变更就有风险！</p></li> <li><p>优化使性能变好，维持和变差是等概率事件！</p></li> <li><p>切记优化,应该是各部门协同，共同参与的工作，任何单一部门都不能对数据库进行优化！</p></li> <li><p>所以优化工作,是由业务需要驱使的！！！</p></li></ul> <h3 id="优化由谁参与"><a href="#优化由谁参与" aria-hidden="true" class="header-anchor">#</a> 优化由谁参与</h3> <p>在进行数据库优化时，应由数据库管理员、业务部门代表、应用程序架构师、应用程序设计人员、应用程序开发人员、硬件及系统管理员、存储管理员等，业务相关人员共同参与</p> <h2 id="优化思路"><a href="#优化思路" aria-hidden="true" class="header-anchor">#</a> 优化思路</h2> <h3 id="优化什么"><a href="#优化什么" aria-hidden="true" class="header-anchor">#</a> 优化什么</h3> <p>在数据库优化上有两个主要方面：即安全与性能。</p> <ul><li>安全 ---&gt; 数据可持续性</li> <li>性能 ---&gt; 数据的高性能访问</li></ul> <h3 id="优化的范围有哪些"><a href="#优化的范围有哪些" aria-hidden="true" class="header-anchor">#</a> 优化的范围有哪些</h3> <ul><li><p>存储、主机和操作系统方面:</p> <ul><li>主机架构稳定性2、I/O规划及配置</li> <li>Swap交换分区</li> <li>OS内核参数和网络问题</li></ul></li> <li><p>应用程序方面:</p> <ul><li>应用程序稳定性</li> <li>SQL语句性能</li> <li>串行访问资源</li> <li>性能欠佳会话管理</li> <li>这个应用适不适合用MySQL</li></ul></li> <li><p>数据库优化方面:</p> <ul><li>内存</li> <li>数据库结构(物理&amp;逻辑)</li> <li>实例配置</li></ul></li></ul> <p>说明：不管是在，设计系统，定位问题还是优化，都可以按照这个顺序执行。</p> <h3 id="优化维度"><a href="#优化维度" aria-hidden="true" class="header-anchor">#</a> 优化维度</h3> <p>数据库优化维度有四个：</p> <p>硬件、系统配置、数据库表结构、SQL及索引。</p> <ul><li><p>优化选择：</p> <ul><li><p>优化成本: 硬件&gt;系统配置&gt;数据库表结构&gt;SQL及索引</p></li> <li><p>优化效果: 硬件&lt;系统配置&lt;数据库表结构&lt;SQL及索引</p></li></ul></li></ul> <h2 id="优化工具"><a href="#优化工具" aria-hidden="true" class="header-anchor">#</a> 优化工具</h2> <h3 id="数据库层面"><a href="#数据库层面" aria-hidden="true" class="header-anchor">#</a> 数据库层面</h3> <h4 id="检查问题常用工具："><a href="#检查问题常用工具：" aria-hidden="true" class="header-anchor">#</a> 检查问题常用工具：</h4> <div class="language-sql extra-class"><pre class="language-sql"><code>mysql
+
+msyqladmin                        mysql客户端，可进行管理操作
+
+mysqlshow                         功能强大的查看shell命令
+
+<span class="token keyword">show</span> <span class="token punctuation">[</span><span class="token keyword">SESSION</span> <span class="token operator">|</span> <span class="token keyword">GLOBAL</span><span class="token punctuation">]</span> variables         查看数据库参数信息
+
+<span class="token keyword">SHOW</span> <span class="token punctuation">[</span><span class="token keyword">SESSION</span> <span class="token operator">|</span> <span class="token keyword">GLOBAL</span><span class="token punctuation">]</span> <span class="token keyword">STATUS</span>           查看数据库的状态信息
+
+information_schema                   获取元数据的方法
+
+<span class="token keyword">SHOW</span> <span class="token keyword">ENGINE</span> <span class="token keyword">INNODB</span> <span class="token keyword">STATUS</span>               <span class="token keyword">Innodb</span>引擎的所有状态
+
+<span class="token keyword">SHOW</span> PROCESSLIST                     查看当前所有连接<span class="token keyword">session</span>状态
+
+<span class="token keyword">explain</span>                           获取查询语句的执行计划
+
+<span class="token keyword">show</span> <span class="token keyword">index</span> 									  查看表的索引信息
+
+slow<span class="token operator">-</span>log 									  记录慢查询语句
+
+mysqldumpslow                       分析slowlog文件的
+</code></pre></div><h4 id="不常用但好用的工具："><a href="#不常用但好用的工具：" aria-hidden="true" class="header-anchor">#</a> 不常用但好用的工具：</h4> <div class="language-mipsasm extra-class"><pre class="language-text"><code>zabbix                  监控主机、系统、数据库（部署zabbix监控平台）
+
+pt-query-digest         分析慢日志
+
+mysqlslap               分析慢日志
+
+sysbench                压力测试工具
+
+mysql profiling         统计数据库整体状态工具
+
+Performance Schema mysql   性能状态统计的数据
+
+workbench               管理、备份、监控、分析、优化工具（比较费资源）
+</code></pre></div><h4 id="数据库层面问题解决思路"><a href="#数据库层面问题解决思路" aria-hidden="true" class="header-anchor">#</a> 数据库层面问题解决思路</h4> <p><strong>一般应急调优的思路：</strong></p> <p>针对突然的业务办理卡顿，无法进行正常的业务处理！需要立马解决的场景！</p> <div class="language-sql extra-class"><pre class="language-sql"><code><span class="token number">1</span>、<span class="token keyword">show</span> processlist
+
+<span class="token number">2</span>、<span class="token keyword">explain</span> <span class="token keyword">select</span> id <span class="token punctuation">,</span>name <span class="token keyword">from</span> stu <span class="token keyword">where</span> name<span class="token operator">=</span><span class="token string">'clsn'</span><span class="token punctuation">;</span> <span class="token comment"># ALL id name age sex</span>
+
+<span class="token keyword">select</span> id<span class="token punctuation">,</span>name <span class="token keyword">from</span> stu <span class="token keyword">where</span> id<span class="token operator">=</span><span class="token number">2</span><span class="token operator">-</span><span class="token number">1</span> 函数 结果集<span class="token operator">&gt;</span><span class="token number">30</span><span class="token punctuation">;</span>
+
+<span class="token keyword">show</span> <span class="token keyword">index</span> <span class="token keyword">from</span> <span class="token keyword">table</span><span class="token punctuation">;</span>
+
+<span class="token number">3</span>、通过执行计划判断，索引问题（有没有、合不合理）或者语句本身问题
+
+<span class="token number">4</span>、<span class="token keyword">show</span> <span class="token keyword">status</span> <span class="token operator">like</span> <span class="token string">'%lock%'</span><span class="token punctuation">;</span> <span class="token comment"># 查询锁状态</span>
+
+<span class="token keyword">kill</span> SESSION_ID<span class="token punctuation">;</span> <span class="token comment"># 杀掉有问题的session</span>
+</code></pre></div><p><strong>常规调优思路：</strong></p> <p>针对业务周期性的卡顿，例如在每天10-11点业务特别慢，但是还能够使用，过了这段时间就好了。</p> <p>1、查看slowlog，分析slowlog，分析出查询慢的语句。
+2、按照一定优先级，进行一个一个的排查所有慢语句。
+3、分析top sql，进行explain调试，查看语句执行时间。
+4、调整索引或语句本身。</p> <h3 id="系统层面"><a href="#系统层面" aria-hidden="true" class="header-anchor">#</a> 系统层面</h3> <ul><li>cpu方面：</li></ul> <p>vmstat、sar top、htop、nmon、mpstat</p> <ul><li>内存：</li></ul> <p>free 、ps -aux 、</p> <ul><li>IO设备（磁盘、网络）：</li></ul> <p>iostat 、 ss 、 netstat 、 iptraf、iftop、lsof、</p> <p>vmstat 命令说明：</p> <p>Procs：r显示有多少进程正在等待CPU时间。b显示处于不可中断的休眠的进程数量。在等待I/OMemory：swpd显示被交换到磁盘的数据块的数量。未被使用的数据块，用户缓冲数据块，用于操作系统的数据块的数量Swap：操作系统每秒从磁盘上交换到内存和从内存交换到磁盘的数据块的数量。s1和s0最好是0Io：每秒从设备中读入b1的写入到设备b0的数据块的数量。反映了磁盘I/OSystem：显示了每秒发生中断的数量(in)和上下文交换(cs)的数量Cpu：显示用于运行用户代码，系统代码，空闲，等待I/O的CPU时间</p> <p>iostat命令说明</p> <p>实例命令：iostat -dk 1 5</p> <p>iostat -d -k -x 5 （查看设备使用率（%util）和响应时间（await））</p> <p>1、tps：该设备每秒的传输次数。“一次传输”意思是“一次I/O请求”。多个逻辑请求可能会被合并为“一次I/O请求”。</p> <p>2、iops ：硬件出厂的时候，厂家定义的一个每秒最大的IO次数,&quot;一次传输&quot;请求的大小是未知的。</p> <p>3、kBread/s：每秒从设备（drive expressed）读取的数据量；</p> <p>4、KBwrtn/s：每秒向设备（drive expressed）写入的数据量；</p> <p>5、kBread：读取的总数据量；7、kBwrtn：写入的总数量数据量；这些单位都为Kilobytes。</p> <h4 id="系统层面问题解决办法"><a href="#系统层面问题解决办法" aria-hidden="true" class="header-anchor">#</a> 系统层面问题解决办法</h4> <p>在实际的生产中，一般认为 cpu只要不超过90%都没什么问题 。</p> <p>当然不排除下面这些特殊情况：</p> <ul><li><p>问题一：cpu负载高，IO负载低</p> <p>1、内存不够
+2、磁盘性能差
+3、SQL问题 ------&gt;去数据库层，进一步排查sql问题
+4、IO出问题了（磁盘到临界了、raid设计不好、raid降级、锁、在单位时间内tps过高）
+5、tps过高: 大量的小数据IO、大量的全表扫描</p></li> <li><p>问题二：IO负载高，cpu负载低</p> <p>1、大量小的IO 写操作：2、autocommit ，产生大量小IO
+3、IO/PS,磁盘的一个定值，硬件出厂的时候，厂家定义的一个每秒最大的IO次数。
+4、大量大的IO 写操作
+5、SQL问题的几率比较大</p></li> <li><p>问题三：IO和cpu负载都很高</p> <p>硬件不够了或sql存在问题</p> <h2 id="基础优化"><a href="#基础优化" aria-hidden="true" class="header-anchor">#</a> 基础优化</h2> <h3 id="优化思路-2"><a href="#优化思路-2" aria-hidden="true" class="header-anchor">#</a> 优化思路</h3></li> <li><p>定位问题点:</p> <p>硬件 --&gt; 系统 --&gt; 应用 --&gt; 数据库 --&gt; 架构（高可用、读写分离、分库分表）</p></li> <li><p>处理方向：</p> <p>明确优化目标、性能和安全的折中、防患未然</p> <h3 id="硬件优化"><a href="#硬件优化" aria-hidden="true" class="header-anchor">#</a> 硬件优化</h3></li> <li><p>主机方面：</p> <p>1、根据数据库类型，主机CPU选择、内存容量选择、磁盘选择
+2、平衡内存和磁盘资源
+3、随机的I/O和顺序的I/O
+4、主机 RAID卡的BBU(Battery Backup Unit)关闭</p></li> <li><p>cpu的选择：</p> <p>1、cpu的两个关键因素：核数、主频
+2、根据不同的业务类型进行选择：3、cpu密集型：计算比较多，OLTP 主频很高的cpu、核数还要多
+4、IO密集型：查询比较，OLAP 核数要多，主频不一定高的</p></li> <li><p>内存的选择：</p> <p>1、OLAP类型数据库，需要更多内存，和数据获取量级有关。2、OLTP类型数据一般内存是cpu核心数量的2倍到4倍，没有最佳实践。</p></li> <li><p>存储方面：</p> <p>1、根据存储数据种类的不同，选择不同的存储设备
+2、配置合理的RAID级别(raid5、raid10、热备盘)
+3、对与操作系统来讲，不需要太特殊的选择，最好做好冗余（raid1）（ssd、sas 、sata）</p></li> <li><p>raid卡：主机raid卡选择：</p> <p>1、实现操作系统磁盘的冗余（raid1）
+2、平衡内存和磁盘资源
+3、随机的I/O和顺序的I/O
+4、主机 RAID卡的BBU(Battery Backup Unit)要关闭。</p></li> <li><p>网络设备方面：</p> <p>使用流量支持更高的网络设备（交换机、路由器、网线、网卡、HBA卡）</p></li></ul> <p>注意：以上这些规划应该在初始设计系统时就应该考虑好。</p> <ul><li><p>服务器硬件优化</p> <p>1、物理状态灯：</p> <p>2、自带管理设备：远程控制卡（FENCE设备：ipmi ilo idarc），开关机、硬件监控。</p> <p>3、第三方的监控软件、设备（snmp、agent）对物理设施进行监控</p> <p>4、存储设备：自带的监控平台。EMC2（hp收购了）， 日立（hds），IBM低端OEM hds，高端存储是自己技术，华为存储</p> <h3 id="系统优化"><a href="#系统优化" aria-hidden="true" class="header-anchor">#</a> 系统优化</h3></li> <li><p>Cpu：</p> <p>基本不需要调整，在硬件选择方面下功夫即可。</p></li> <li><p>内存：</p> <p>基本不需要调整，在硬件选择方面下功夫即可。</p></li> <li><p>SWAP：</p> <p>MySQL尽量避免使用swap。阿里云的服务器中默认swap为0</p></li> <li><p>IO ：</p></li> <li><p>raid、no lvm、 ext4或xfs、ssd、IO调度策略</p></li> <li><p>Swap调整(不使用swap分区)</p></li></ul> <div class="language-groovy extra-class"><pre class="language-groovy"><code><span class="token string regex">/proc/</span>sys<span class="token string regex">/vm/</span>swappiness的内容改成<span class="token number">0</span>（临时）
+
+<span class="token string regex">/etc/</span>sysctl<span class="token operator">.</span>conf上添加vm<span class="token operator">.</span>swappiness<span class="token operator">=</span><span class="token number">0</span>（永久）
+</code></pre></div><p>这个参数决定了Linux是倾向于使用swap，还是倾向于释放文件系统cache。在内存紧张的情况下，数值越低越倾向于释放文件系统cache。当然，这个参数只能减少使用swap的概率，并不能避免Linux使用swap。修改MySQL的配置参数innodbflushmethod，开启O_DIRECT模式。这种情况下，InnoDB的buffer pool会直接绕过文件系统cache来访问磁盘，但是redo log依旧会使用文件系统cache。值得注意的是，Redo log是覆写模式的，即使使用了文件系统的cache，也不会占用太多。</p> <ul><li>IO调度策略：</li></ul> <div class="language-stata extra-class"><pre class="language-text"><code>vi /boot/grub/grub.conf
+</code></pre></div><p>更改到如下内容:</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code>kernel <span class="token operator">/</span>boot<span class="token operator">/</span>vmlinuz<span class="token operator">-</span><span class="token number">2.6</span><span class="token number">.18</span><span class="token operator">-</span><span class="token number">8.</span>el5 ro root<span class="token operator">=</span><span class="token constant">LABEL</span><span class="token operator">=</span><span class="token operator">/</span> elevator<span class="token operator">=</span>deadline rhgb quiet
+</code></pre></div><ul><li>系统参数调整
+<ul><li>Linux系统内核参数优化：</li></ul></li></ul> <div class="language-shell extra-class"><pre class="language-text"><code>vim /etc/sysctl.conf
+
+net.ipv4.ip_local_port_range = 1024 65535
+ 
+# 用户端口范围
+# 系统最大文件句柄，控制的是能打开文件最大数量
+net.ipv4.tcp_max_syn_backlog = 4096
+net.ipv4.tcp_fin_timeout = 30
+fs.file-max=65535
+</code></pre></div><p>用户限制参数（mysql可以不设置以下配置）：</p> <div class="language-shell extra-class"><pre class="language-text"><code>vim    /etc/security/limits.conf 
+* soft nproc 65535
+* hard nproc 65535
+* soft nofile 65535
+* hard nofile 65535
+</code></pre></div><h3 id="应用优化"><a href="#应用优化" aria-hidden="true" class="header-anchor">#</a> 应用优化</h3> <p>业务应用和数据库应用独立,防火墙：iptables、selinux等其他无用服务(关闭)等</p> <h3 id="数据库优化"><a href="#数据库优化" aria-hidden="true" class="header-anchor">#</a> 数据库优化</h3> <ul><li><p>SQL优化方向：</p> <p>执行计划、索引、SQL改写</p></li> <li><p>架构优化方向：</p> <p>高可用架构、高性能架构、分库分表</p></li> <li><p>数据库参数优化</p></li> <li><p>实例整体（高级优化，扩展）</p></li></ul> <div class="language-stylus extra-class"><pre class="language-stylus"><code><span class="token property-declaration"><span class="token property">thread_concurrency</span>       # 并发线程数量个数</span>
+
+<span class="token property-declaration"><span class="token property">sort_buffer_size</span>         # 排序缓存</span>
+
+<span class="token property-declaration"><span class="token property">read_buffer_size</span>         # 顺序读取缓存</span>
+
+<span class="token property-declaration"><span class="token property">read_rnd_buffer_size</span>     # 随机读取缓存</span>
+
+<span class="token property-declaration"><span class="token property">key_buffer_size</span>          # 索引缓存</span>
+
+<span class="token property-declaration"><span class="token property">thread_cache_size</span>        # <span class="token punctuation">(</span><span class="token number">1</span>G—<span class="token operator">&gt;</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">2</span>G—<span class="token operator">&gt;</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">3</span>G—<span class="token operator">&gt;</span><span class="token number">32</span><span class="token punctuation">,</span> <span class="token operator">&gt;</span><span class="token number">3</span>G—<span class="token operator">&gt;</span><span class="token number">64</span><span class="token punctuation">)</span></span>
+</code></pre></div><ul><li>连接层（基础优化）</li></ul> <p>设置合理的连接客户和连接方式</p> <div class="language-stylus extra-class"><pre class="language-stylus"><code><span class="token property-declaration"><span class="token property">max_connections</span>           # 最大连接数，看交易笔数设置</span>
+
+<span class="token property-declaration"><span class="token property">max_connect_errors</span>        # 最大错误连接数，能大则大</span>
+
+<span class="token property-declaration"><span class="token property">connect_timeout</span>           # 连接超时</span>
+
+<span class="token property-declaration"><span class="token property">max_user_connections</span>      # 最大用户连接数</span>
+
+<span class="token property-declaration"><span class="token property">skip-name-resolve</span>         # 跳过域名解析</span>
+
+<span class="token property-declaration"><span class="token property">wait_timeout</span>              # 等待超时</span>
+
+<span class="token property-declaration"><span class="token property">back_log</span>                  # 可以在堆栈中的连接数量</span>
+
+</code></pre></div><ul><li>SQL层（基础优化）</li></ul> <p>querycachesize：查询缓存--&gt;&gt;&gt;OLAP类型数据库,需要重点加大此内存缓存.</p> <p>1、但是一般不会超过GB.</p> <p>2、对于经常被修改的数据，缓存会立马失效。</p> <p>3、我们可以实用内存数据库（redis、memecache），替代他的功能。</p> <ul><li>存储引擎层（innodb基础优化参数）</li></ul> <div class="language-javascript extra-class"><pre class="language-javascript"><code>
+<span class="token keyword">default</span><span class="token operator">-</span>storage<span class="token operator">-</span>engine
+
+innodb_buffer_pool_size # 没有固定大小，<span class="token number">50</span><span class="token operator">%</span>测试值，看看情况再微调。但是尽量设置不要超过物理内存<span class="token number">70</span><span class="token operator">%</span>
+innodb_file_per_table<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span>
+innodb_flush_log_at_trx_commit<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span> # <span class="token number">1</span>是最安全的，<span class="token number">0</span>是性能最高，<span class="token number">2</span>折中
+binlog_sync
+Innodb_flush_method<span class="token operator">=</span><span class="token punctuation">(</span><span class="token constant">O_DIRECT</span><span class="token punctuation">,</span> fdatasync<span class="token punctuation">)</span>
+innodb_log_buffer_size # <span class="token number">100</span>M以下
+innodb_log_file_size          # <span class="token number">100</span>M 以下
+innodb_log_files_in_group     # <span class="token number">5</span>个成员以下<span class="token punctuation">,</span>一般<span class="token number">2</span><span class="token operator">-</span><span class="token number">3</span>个够用（iblogfile0<span class="token operator">-</span><span class="token constant">N</span>）
+innodb_max_dirty_pages_pct   # 达到百分之<span class="token number">75</span>的时候刷写 内存脏页到磁盘。
+log_bin max_binlog_cache_size # 可以不设置
+max_binlog_size               # 可以不设置
+nnodb_additional_mem_pool_size    #小于<span class="token number">2</span>G内存的机器，推荐值是<span class="token number">20</span>M。<span class="token number">32</span>G内存以上<span class="token number">100</span>M
+</code></pre></div></div> <div class="page-edit"><!----> <div class="last-updated"><span class="prefix">更新时间: </span> <span class="time">7/21/2019, 11:47:17 PM</span></div></div> <!----> </div> <!----></div></div>
+    <script src="/assets/js/app.3295d756.js" defer></script><script src="/assets/js/8.beb2bf5d.js" defer></script><script src="/assets/js/11.d4321d37.js" defer></script>
+  </body>
+</html>
